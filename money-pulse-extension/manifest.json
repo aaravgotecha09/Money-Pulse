@@ -1,0 +1,52 @@
+{
+  "manifest_version": 3,
+  "name": "Money Pulse",
+  "description": "Predicts your cash-flow stability and flags purchase risk before you buy.",
+  "version": "0.3.0",
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["storage", "tabs"],
+  "host_permissions": [
+    "https://*.onrender.com/*",
+    "http://localhost:8000/*",
+    "*://*.amazon.in/*",
+    "*://*.amazon.com/*",
+    "*://*.flipkart.com/*",
+    "*://*.myntra.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.amazon.in/*",
+        "*://*.amazon.com/*",
+        "*://*.flipkart.com/*",
+        "*://*.myntra.com/*"
+      ],
+      "js": ["api.js", "content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://*.onrender.com/auth/success*",
+        "http://localhost:8000/auth/success*"
+      ],
+      "js": ["auth-bridge.js"],
+      "run_at": "document_end"
+    }
+  ]
+}

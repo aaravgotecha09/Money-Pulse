@@ -1,0 +1,21 @@
+# Render Blueprint — lets you deploy by pointing Render at this repo
+# instead of filling the build/start commands in by hand.
+services:
+  - type: web
+    name: money-pulse-api
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /
+    envVars:
+      - key: GOOGLE_CLIENT_ID
+        sync: false        # you fill this in Render's dashboard
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false        # you fill this in Render's dashboard
+      - key: JWT_SECRET
+        generateValue: true   # Render generates a random secret for you
+      - key: BASE_URL
+        sync: false        # set to your Render URL once you know it
+      - key: PYTHON_VERSION
+        value: 3.12.3
