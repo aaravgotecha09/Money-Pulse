@@ -5,6 +5,7 @@ services:
     name: money-pulse-api
     runtime: python
     plan: free
+    rootDir: money-pulse-backend        # <--- Ensures Render finds requirements.txt inside the subfolder
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /
